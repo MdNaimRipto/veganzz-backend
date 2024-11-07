@@ -1,28 +1,27 @@
 import { z } from "zod";
 
-const uploadEBookZodSchema = z.object({
+const uploadBookingsZodSchema = z.object({
   body: z.object({
-    name: z.string({
-      required_error: "Name is Required",
+    userId: z.string({
+      required_error: "userId is Required",
     }),
-    mainImg: z.string({
-      required_error: "Image is Required",
+    productId: z.string({
+      required_error: "productId is Required",
     }),
-    otherImages: z.array(
-      z.string({ required_error: "Other Images are Required" }),
-      {
-        required_error: "Other Images Are Required",
-      },
-    ),
-    mainDescription: z.string({
-      required_error: "Main Description is Required",
+    transactionId: z.string({
+      required_error: "transactionId is Required",
     }),
-    subDescription: z.string({
-      required_error: "Sub Description is Required",
+    cost: z.string({
+      required_error: "cost is Required",
     }),
+    quantity: z
+      .number({
+        required_error: "quantity is Required",
+      })
+      .min(1),
   }),
 });
 
-export const EBookValidation = {
-  uploadEBookZodSchema,
+export const BookingsValidation = {
+  uploadBookingsZodSchema,
 };

@@ -1,12 +1,12 @@
-import { model, Schema } from "mongoose";
-import { IEBook } from "./booking.interface";
+import { model, Schema, Types } from "mongoose";
+import { IBooking } from "./booking.interface";
 
-const eBookSchema = new Schema<IEBook>({
-  name: { type: String, required: true },
-  mainImg: { type: String, required: true },
-  otherImages: [{ type: String, required: true }],
-  subDescription: { type: String, required: true },
-  mainDescription: { type: String, required: true },
+const bookingSchema = new Schema<IBooking>({
+  userId: { type: Types.ObjectId, required: true, ref: "Users" },
+  productId: { type: Types.ObjectId, required: true, ref: "EBook" },
+  transactionId: { type: String, required: true, unique: true },
+  cost: { type: String, required: true },
+  quantity: { type: Number, required: true, min: 1 },
 });
 
-export const EBook = model<IEBook>("EBook", eBookSchema);
+export const Bookings = model<IBooking>("Bookings", bookingSchema);

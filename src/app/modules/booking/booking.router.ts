@@ -1,18 +1,21 @@
 import express from "express";
 import zodValidationRequest from "../../../middlewares/zodValidationRequest";
-import { EBookValidation } from "./booking.validation";
-import { EBookController } from "./booking.controller";
+import { BookingsValidation } from "./booking.validation";
+import { BookingsController } from "./booking.controller";
 
 const router = express.Router();
 
 router.post(
-  "/uploadEBook",
-  zodValidationRequest(EBookValidation.uploadEBookZodSchema),
-  EBookController.uploadEBook,
+  "/bookProducts",
+  zodValidationRequest(BookingsValidation.uploadBookingsZodSchema),
+  BookingsController.bookProducts,
 );
 
-router.get("/getAllEBook", EBookController.getAllEBook);
+router.get("/getAllBookedProducts", BookingsController.getAllBookedProducts);
 
-router.patch("/updateEBook/:id", EBookController.updateEBook);
+router.get(
+  "/getUsersAllBookedProducts/:id",
+  BookingsController.getUsersAllBookedProducts,
+);
 
 export const BeautyRouter = router;
