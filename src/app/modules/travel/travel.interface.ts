@@ -1,3 +1,5 @@
+export type statusEnums = "PUBLISHED" | "DELETED";
+
 export interface ITravel {
   name: string;
   image: string;
@@ -5,4 +7,5 @@ export interface ITravel {
   state: string;
   description: string;
   watchOutFor: string;
+  status: statusEnums;
 }

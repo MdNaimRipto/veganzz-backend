@@ -2,7 +2,7 @@ import { model, Schema } from "mongoose";
 import { IUser } from "./users.interface";
 import bcrypt from "bcrypt";
 import config from "../../../config/config";
-import { UserRoleEnums } from "./user.constant";
+import { UserBehaviorEnums, UserRoleEnums } from "./user.constant";
 
 export const usersSchema = new Schema<IUser>(
   {
@@ -19,6 +19,12 @@ export const usersSchema = new Schema<IUser>(
       required: true,
       enum: UserRoleEnums,
       default: "CUSTOMER",
+    },
+    behavior: {
+      type: String,
+      enum: UserBehaviorEnums,
+      required: true,
+      default: "FRIENDLY",
     },
     status: { type: Boolean, required: true, default: false },
     uid: { type: String, required: true, unique: true },

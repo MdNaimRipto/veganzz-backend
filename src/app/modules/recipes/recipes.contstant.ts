@@ -11,3 +11,5 @@ export const RecipeTypesEnums: recipeTypeEnums[] = [
   "DESSERTS",
   "PANTRY",
 ];
+
+export const RecipesFilterableFields = ["publishedYear"];

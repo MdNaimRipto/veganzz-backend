@@ -39,4 +39,6 @@ router.post(
 
 router.patch("/forgotPassword", UserController.forgotPassword);
 
+router.get("/getAllUsers", UserController.getAllUsers);
+
 export const UserRouter = router;

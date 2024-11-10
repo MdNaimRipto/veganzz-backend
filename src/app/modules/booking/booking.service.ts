@@ -1,9 +1,16 @@
 import httpStatus from "http-status";
 import ApiError from "../../../errors/ApiError";
-import { IBooking } from "./booking.interface";
+import { IBooking, IBookingFilters } from "./booking.interface";
 import { Bookings } from "./booking.schema";
 import { Users } from "../users/users.schema";
 import { EBook } from "../eBook/eBook.schema";
+import { generateOrderId } from "./booking.utils";
+import {
+  IGenericPaginationResponse,
+  IPaginationOptions,
+} from "../../../interface/pagination";
+import { calculatePaginationFunction } from "../../../helpers/paginationHelpers";
+import { SortOrder } from "mongoose";
 
 const bookProducts = async (payload: IBooking): Promise<IBooking | null> => {
   const { userId, productId } = payload;
@@ -25,13 +32,54 @@ const bookProducts = async (payload: IBooking): Promise<IBooking | null> => {
     throw new ApiError(httpStatus.BAD_REQUEST, "Product Already Booked!");
   }
 
+  const orderId = generateOrderId();
+
+  payload.orderId = String(orderId);
+
   const result = await Bookings.create(payload);
   return result;
 };
 
-const getAllBookedProducts = async (): Promise<IBooking[]> => {
-  const result = await Bookings.find({});
-  return result;
+const getAllBookedProducts = async (
+  filters: IBookingFilters,
+  paginationOptions: IPaginationOptions,
+): Promise<IGenericPaginationResponse<IBooking[]>> => {
+  const andConditions = [];
+  if (Object.keys(filters).length) {
+    andConditions.push({
+      $and: Object.entries(filters).map(([field, value]) => {
+        return { [field]: value };
+      }),
+    });
+  }
+
+  const { page, limit, skip, sortBy, sortOrder } =
+    calculatePaginationFunction(paginationOptions);
+
+  const sortConditions: { [key: string]: SortOrder } = {};
+
+  if (sortBy && sortOrder) {
+    sortConditions[sortBy] = sortOrder;
+  }
+
+  const checkAndCondition =
+    andConditions?.length > 0 ? { $and: andConditions } : {};
+
+  const result = await Bookings.find(checkAndCondition)
+    .sort(sortConditions)
+    .skip(skip)
+    .limit(limit);
+
+  const total = await Bookings.countDocuments(checkAndCondition);
+
+  return {
+    meta: {
+      page,
+      limit,
+      total,
+    },
+    data: result,
+  };
 };
 
 const getUsersAllBookedProducts = async (

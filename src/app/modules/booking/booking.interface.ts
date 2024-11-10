@@ -8,4 +8,11 @@ export interface IBooking {
   transactionId: string;
   cost: string;
   quantity: number;
+  orderId: string;
+  paymentType: string;
+  orderYear: string;
+}
+
+export interface IBookingFilters {
+  orderYear?: string;
 }

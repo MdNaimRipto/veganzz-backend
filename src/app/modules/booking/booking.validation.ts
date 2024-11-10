@@ -14,6 +14,12 @@ const uploadBookingsZodSchema = z.object({
     cost: z.string({
       required_error: "cost is Required",
     }),
+    orderId: z.string({
+      required_error: "orderId is Required",
+    }),
+    paymentType: z.string({
+      required_error: "paymentType is Required",
+    }),
     quantity: z
       .number({
         required_error: "quantity is Required",

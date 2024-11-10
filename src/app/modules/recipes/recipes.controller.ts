@@ -4,6 +4,9 @@ import { recipesService } from "./recipes.service";
 import sendResponse from "../../../shared/sendResponse";
 import httpStatus from "http-status";
 import { recipeTypeEnums } from "./recipes.interface";
+import { RecipesFilterableFields } from "./recipes.contstant";
+import pick from "../../../shared/shared";
+import { paginationFields } from "../../../constants/pagination.constant";
 
 // Upload Recipe
 const uploadRecipe = catchAsync(async (req: Request, res: Response) => {
@@ -21,9 +24,10 @@ const uploadRecipe = catchAsync(async (req: Request, res: Response) => {
 
 // Upload Recipe
 const getAllRecipes = catchAsync(async (req: Request, res: Response) => {
-  const { type } = req.query;
+  const filters = pick(req.query, RecipesFilterableFields);
+  const options = pick(req.query, paginationFields);
 
-  const result = await recipesService.getAllRecipes(type as recipeTypeEnums);
+  const result = await recipesService.getAllRecipes(filters, options);
 
   sendResponse(res, {
     success: true,

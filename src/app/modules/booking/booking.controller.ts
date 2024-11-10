@@ -3,6 +3,9 @@ import catchAsync from "../../../shared/catchAsync";
 import sendResponse from "../../../shared/sendResponse";
 import httpStatus from "http-status";
 import { BookingsService } from "./booking.service";
+import { BookingFilterableFields } from "./booking.constant";
+import { paginationFields } from "../../../constants/pagination.constant";
+import pick from "../../../shared/shared";
 
 // Upload Travel
 const bookProducts = catchAsync(async (req: Request, res: Response) => {
@@ -20,7 +23,9 @@ const bookProducts = catchAsync(async (req: Request, res: Response) => {
 
 // Upload Travel
 const getAllBookedProducts = catchAsync(async (req: Request, res: Response) => {
-  const result = await BookingsService.getAllBookedProducts();
+  const filters = pick(req.query, BookingFilterableFields);
+  const options = pick(req.query, paginationFields);
+  const result = await BookingsService.getAllBookedProducts(filters, options);
 
   sendResponse(res, {
     success: true,

@@ -4,6 +4,9 @@ import { UserService } from "./users.service";
 import sendResponse from "../../../shared/sendResponse";
 import httpStatus from "http-status";
 import { verifyAuthToken } from "../../../util/verifyAuthToken";
+import pick from "../../../shared/shared";
+import { UserFilterableFields } from "./user.constant";
+import { paginationFields } from "../../../constants/pagination.constant";
 
 // User Register
 const userRegister = catchAsync(async (req: Request, res: Response) => {
@@ -122,6 +125,19 @@ const forgotPassword = catchAsync(async (req: Request, res: Response) => {
   });
 });
 
+// Get All Users
+const getAllUsers = catchAsync(async (req: Request, res: Response) => {
+  const filters = pick(req.query, UserFilterableFields);
+  const options = pick(req.query, paginationFields);
+  const result = await UserService.gatAllUsers(filters, options);
+  sendResponse(res, {
+    success: true,
+    statusCode: httpStatus.OK,
+    message: "User's Retrieved Successfully",
+    data: result,
+  });
+});
+
 export const UserController = {
   userRegister,
   userLogin,
@@ -131,4 +147,5 @@ export const UserController = {
   findUserForForgotPassword,
   verifyOtpForForgotPassword,
   forgotPassword,
+  getAllUsers,
 };

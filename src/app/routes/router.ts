@@ -4,6 +4,7 @@ import { RecipesRouter } from "../modules/recipes/recipes.router";
 import { TravelsRouter } from "../modules/travel/travel.router";
 import { HelpersRouter } from "../modules/travel/helpers/helpers.router";
 import { BeautyRouter } from "../modules/beauty/beauty.router";
+import { ReviewsRouter } from "../modules/reviews/reviews.router";
 
 const router = express.Router();
 
@@ -27,6 +28,10 @@ const routes = [
   {
     path: "/travels/helpers",
     route: HelpersRouter,
+  },
+  {
+    path: "/reviews",
+    route: ReviewsRouter,
   },
 ];
 

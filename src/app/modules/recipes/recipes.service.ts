@@ -1,7 +1,13 @@
 import httpStatus from "http-status";
 import ApiError from "../../../errors/ApiError";
-import { IRecipe, recipeTypeEnums } from "./recipes.interface";
+import { IRecipe, IRecipesFilters, recipeTypeEnums } from "./recipes.interface";
 import { Recipes } from "./recipes.schema";
+import {
+  IGenericPaginationResponse,
+  IPaginationOptions,
+} from "../../../interface/pagination";
+import { calculatePaginationFunction } from "../../../helpers/paginationHelpers";
+import { SortOrder } from "mongoose";
 
 const uploadRecipe = async (payload: IRecipe): Promise<IRecipe | null> => {
   const { ingredients, preparationSteps } = payload;
@@ -21,9 +27,47 @@ const uploadRecipe = async (payload: IRecipe): Promise<IRecipe | null> => {
   return result;
 };
 
-const getAllRecipes = async (type: recipeTypeEnums): Promise<IRecipe[]> => {
-  const result = await Recipes.find({ type: type });
-  return result;
+const getAllRecipes = async (
+  filters: IRecipesFilters,
+  paginationOptions: IPaginationOptions,
+): Promise<IGenericPaginationResponse<IRecipe[]>> => {
+  const andConditions = [];
+
+  if (Object.keys(filters).length) {
+    andConditions.push({
+      $and: Object.entries(filters).map(([field, value]) => {
+        return { [field]: value };
+      }),
+    });
+  }
+
+  const { page, limit, skip, sortBy, sortOrder } =
+    calculatePaginationFunction(paginationOptions);
+
+  const sortConditions: { [key: string]: SortOrder } = {};
+
+  if (sortBy && sortOrder) {
+    sortConditions[sortBy] = sortOrder;
+  }
+
+  const checkAndCondition =
+    andConditions?.length > 0 ? { $and: andConditions } : {};
+
+  const result = await Recipes.find(checkAndCondition)
+    .sort(sortConditions)
+    .skip(skip)
+    .limit(limit);
+
+  const total = await Recipes.countDocuments(checkAndCondition);
+
+  return {
+    meta: {
+      page,
+      limit,
+      total,
+    },
+    data: result,
+  };
 };
 
 const getRecipeDetails = async (id: string): Promise<IRecipe | null> => {

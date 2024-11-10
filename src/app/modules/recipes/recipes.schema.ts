@@ -14,6 +14,11 @@ const recipesSchema = new Schema<IRecipe>({
   ingredients: [{ type: String, required: true }],
   preparationSteps: [{ type: String, required: true }],
   tips: [{ type: String, required: true }],
+  publishedYear: {
+    type: String,
+    required: true,
+    default: () => new Date().getFullYear().toString(),
+  },
 });
 
 export const Recipes = model<IRecipe>("Recipes", recipesSchema);

@@ -21,4 +21,10 @@ export interface IRecipe {
   ingredients: Array<string>;
   preparationSteps: Array<string>;
   tips: Array<string>;
+  publishedYear: string;
+}
+
+export interface IRecipesFilters {
+  publishedYear?: string;
+  type?: recipeTypeEnums;
 }

@@ -7,6 +7,13 @@ const bookingSchema = new Schema<IBooking>({
   transactionId: { type: String, required: true, unique: true },
   cost: { type: String, required: true },
   quantity: { type: Number, required: true, min: 1 },
+  orderId: { type: String, required: true },
+  orderYear: {
+    type: String,
+    required: true,
+    default: () => new Date().getFullYear().toString(),
+  },
+  paymentType: { type: String, required: true },
 });
 
 export const Bookings = model<IBooking>("Bookings", bookingSchema);

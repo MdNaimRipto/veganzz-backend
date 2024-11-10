@@ -1,4 +1,5 @@
 export type userRoleEnums = "ADMIN" | "EDITOR" | "CUSTOMER";
+export type userBehaviorEnums = "ABUSIVE" | "FAKE" | "SPAMMING" | "FRIENDLY";
 
 export interface IUser {
   name: string;
@@ -12,6 +13,7 @@ export interface IUser {
   };
   status: boolean;
   role: userRoleEnums;
+  behavior: userBehaviorEnums;
   uid: string;
 }
 
@@ -27,6 +29,7 @@ export interface IUserWithoutPassword {
   };
   status: boolean;
   role: userRoleEnums;
+  behavior: userBehaviorEnums;
   uid: string;
   createdAt: Date;
   updatedAt: Date;
@@ -56,4 +59,8 @@ export interface IForgetPasswordValidator {
 export interface IUpdatePasswordValidator {
   email: string;
   password: string;
+}
+
+export interface IUserFilters {
+  behavior?: userBehaviorEnums;
 }

@@ -7,6 +7,8 @@ import {
   IUpdatePassword,
   IUpdatePasswordValidator,
   IUser,
+  IUserFilters,
+  IUserWithoutPassword,
 } from "./users.interface";
 import { Users } from "./users.schema";
 import {
@@ -22,6 +24,12 @@ import bcrypt from "bcrypt";
 import crypto from "crypto";
 import nodemailer from "nodemailer";
 import { Redis } from "@upstash/redis";
+import {
+  IGenericPaginationResponse,
+  IPaginationOptions,
+} from "../../../interface/pagination";
+import { calculatePaginationFunction } from "../../../helpers/paginationHelpers";
+import { SortOrder } from "mongoose";
 
 //* User Register Custom
 const userRegister = async (payload: IUser): Promise<IAuthUser> => {
@@ -381,6 +389,50 @@ const forgotPassword = async (
   return null;
 };
 
+// Get All Users
+const gatAllUsers = async (
+  filters: IUserFilters,
+  paginationOptions: IPaginationOptions,
+): Promise<IGenericPaginationResponse<IUser[]>> => {
+  const andConditions = [];
+  if (Object.keys(filters).length) {
+    andConditions.push({
+      $and: Object.entries(filters).map(([field, value]) => {
+        return { [field]: value };
+      }),
+    });
+  }
+
+  const { page, limit, skip, sortBy, sortOrder } =
+    calculatePaginationFunction(paginationOptions);
+
+  const sortConditions: { [key: string]: SortOrder } = {};
+
+  if (sortBy && sortOrder) {
+    sortConditions[sortBy] = sortOrder;
+  }
+
+  const checkAndCondition =
+    andConditions?.length > 0 ? { $and: andConditions } : {};
+
+  const result = await Users.find(checkAndCondition)
+    .sort(sortConditions)
+    .skip(skip)
+    .limit(limit)
+    .select("-password");
+
+  const total = await Users.countDocuments(checkAndCondition);
+
+  return {
+    meta: {
+      page,
+      limit,
+      total,
+    },
+    data: result,
+  };
+};
+
 export const UserService = {
   userRegister,
   verifyUser,
@@ -390,4 +442,5 @@ export const UserService = {
   findUserForForgotPassword,
   verifyOtpForForgotPassword,
   forgotPassword,
+  gatAllUsers,
 };
