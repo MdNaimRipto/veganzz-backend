@@ -15,4 +15,4 @@ router.get("/getAllEBook", EBookController.getAllEBook);
 
 router.patch("/updateEBook/:id", EBookController.updateEBook);
 
-export const BeautyRouter = router;
+export const EBookRouter = router;

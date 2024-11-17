@@ -14,4 +14,9 @@ export const ReviewStatusEnums: reviewStatusEnums[] = [
   "BLOCKED",
 ];
 
-export const ReviewsFilterableFields = ["reviewStatus", "reviewedOn"];
+export const ReviewsFilterableFields = [
+  "reviewStatus",
+  "reviewedOn",
+  "productId",
+  "reviewFor",
+];

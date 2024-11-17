@@ -8,7 +8,6 @@ import {
   IUpdatePasswordValidator,
   IUser,
   IUserFilters,
-  IUserWithoutPassword,
 } from "./users.interface";
 import { Users } from "./users.schema";
 import {
@@ -148,10 +147,7 @@ const userLogin = async (payload: ILoginUser): Promise<IAuthUser> => {
 const updateUser = async (
   userID: string,
   payload: Partial<IUser>,
-  token: string,
 ): Promise<IAuthUser | null> => {
-  jwtHelpers.jwtVerify(token, config.jwt_secret as Secret);
-
   const isExistsUser = await Users.findById({ _id: userID });
   if (!isExistsUser) {
     throw new ApiError(httpStatus.NOT_FOUND, "User Not Found");
@@ -194,10 +190,7 @@ const updateUser = async (
 // * For Updating the password
 const updatePassword = async (
   payload: IUpdatePassword,
-  token: string,
 ): Promise<IAuthUser | null> => {
-  jwtHelpers.jwtVerify(token, config.jwt_secret as Secret);
-
   const { userId, currentPassword, newPassword, confirmPassword } = payload;
 
   const isExistsUser = await Users.findById({ _id: userId });

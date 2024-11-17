@@ -15,4 +15,4 @@ router.get("/getAllHouseHold", HouseHoldController.getAllHouseHold);
 
 router.patch("/updateHouseHold/:id", HouseHoldController.updateHouseHold);
 
-export const BeautyRouter = router;
+export const HouseHoldRouter = router;

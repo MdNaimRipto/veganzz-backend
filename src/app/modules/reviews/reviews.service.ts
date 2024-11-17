@@ -16,18 +16,45 @@ import {
 import { calculatePaginationFunction } from "../../../helpers/paginationHelpers";
 import { SortOrder } from "mongoose";
 import { Recipes } from "../recipes/recipes.schema";
+import { TravelHelpers } from "../travel/helpers/helpers.schema";
 
 const uploadReview = async (payload: IReviews): Promise<IReviews | null> => {
-  const { userId, productId } = payload;
+  const { userId, productId, reviewFor } = payload;
 
   const isUserExists = await Users.findOne({ _id: userId }, { _id: 1 });
   if (!isUserExists) {
     throw new ApiError(httpStatus.UNAUTHORIZED, "User Does not Exists!");
   }
 
-  const isProductExists = await EBook.findOne({ _id: productId }, { _id: 1 });
-  if (!isProductExists) {
-    throw new ApiError(httpStatus.NOT_FOUND, "Product Does not Exists!");
+  if (reviewFor === "BOOK") {
+    const isProductExists = await EBook.findOne({ _id: productId }, { _id: 1 });
+    if (!isProductExists) {
+      throw new ApiError(httpStatus.NOT_FOUND, "Product Does not Exists!");
+    }
+  }
+
+  if (reviewFor === "RECIPE") {
+    const isProductExists = await Recipes.findOne(
+      { _id: productId },
+      { _id: 1 },
+    );
+    if (!isProductExists) {
+      throw new ApiError(httpStatus.NOT_FOUND, "Recipe Does not Exists!");
+    }
+  }
+
+  if (
+    reviewFor === "TRAVEL_COSMETICS" ||
+    reviewFor === "TRAVEL_DINING" ||
+    reviewFor === "TRAVEL_FOOD"
+  ) {
+    const isProductExists = await TravelHelpers.findOne(
+      { _id: productId },
+      { _id: 1 },
+    );
+    if (!isProductExists) {
+      throw new ApiError(httpStatus.NOT_FOUND, "Helper Does not Exists!");
+    }
   }
 
   const isReviewAlreadyExists = await Reviews.findOne({
@@ -102,7 +129,11 @@ const getAllReviews = async (
   const result = await Reviews.find(checkAndCondition)
     .sort(sortConditions)
     .skip(skip)
-    .limit(limit);
+    .limit(limit)
+    .populate({
+      path: "userId",
+      select: "name _id profileImage",
+    });
 
   const total = await Reviews.countDocuments(checkAndCondition);
 
@@ -121,6 +152,9 @@ const getAllReviewsByProduct = async (
 ): Promise<IReviews[]> => {
   const result = await Reviews.find({
     $and: [{ productId }, { reviewStatus: "APPROVED" }],
+  }).populate({
+    path: "userId",
+    select: "name _id profileImage",
   });
   return result;
 };

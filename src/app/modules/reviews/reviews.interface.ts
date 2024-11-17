@@ -23,4 +23,6 @@ export interface IReviews {
 export interface IReviewsFilters {
   reviewStatus?: reviewStatusEnums;
   reviewedOn?: string;
+  productId?: string;
+  reviewFor?: reviewForEnumTypes;
 }

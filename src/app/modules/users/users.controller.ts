@@ -54,9 +54,8 @@ const userLogin = catchAsync(async (req: Request, res: Response) => {
 const updatedUser = catchAsync(async (req: Request, res: Response) => {
   const { id } = req.params;
   const { ...payload } = req.body;
-  const token = verifyAuthToken(req);
 
-  const result = await UserService.updateUser(id, payload, token);
+  const result = await UserService.updateUser(id, payload);
 
   sendResponse(res, {
     success: true,
@@ -69,9 +68,8 @@ const updatedUser = catchAsync(async (req: Request, res: Response) => {
 // Update User
 const updatePassword = catchAsync(async (req: Request, res: Response) => {
   const { ...payload } = req.body;
-  const token = verifyAuthToken(req);
 
-  const result = await UserService.updatePassword(payload, token);
+  const result = await UserService.updatePassword(payload);
 
   sendResponse(res, {
     success: true,

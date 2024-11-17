@@ -1,0 +1,21 @@
+"use strict";
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.UserRouter = void 0;
+const express_1 = __importDefault(require("express"));
+const users_controller_1 = require("./users.controller");
+const zodValidationRequest_1 = __importDefault(require("../../../middlewares/zodValidationRequest"));
+const users_validation_1 = require("./users.validation");
+const router = express_1.default.Router();
+router.post("/register", (0, zodValidationRequest_1.default)(users_validation_1.UserValidation.usersZodSchema), users_controller_1.UserController.userRegister);
+router.patch("/verifyUser", users_controller_1.UserController.verifyUser);
+router.post("/login", (0, zodValidationRequest_1.default)(users_validation_1.UserValidation.loginUserZodSchema), users_controller_1.UserController.userLogin);
+router.patch("/updateUser/:id", users_controller_1.UserController.updatedUser);
+router.patch("/updatePassword", (0, zodValidationRequest_1.default)(users_validation_1.UserValidation.updatePasswordZodSchema), users_controller_1.UserController.updatePassword);
+router.post("/findUserForForgotPassword", users_controller_1.UserController.findUserForForgotPassword);
+router.post("/verifyOtpForForgotPassword", users_controller_1.UserController.verifyOtpForForgotPassword);
+router.patch("/forgotPassword", users_controller_1.UserController.forgotPassword);
+router.get("/getAllUsers", users_controller_1.UserController.getAllUsers);
+exports.UserRouter = router;

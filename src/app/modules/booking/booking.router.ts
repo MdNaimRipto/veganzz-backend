@@ -18,4 +18,4 @@ router.get(
   BookingsController.getUsersAllBookedProducts,
 );
 
-export const BeautyRouter = router;
+export const BookingsRouter = router;
