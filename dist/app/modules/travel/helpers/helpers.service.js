@@ -55,8 +55,19 @@ const updateTravelHelper = (id, payload) => __awaiter(void 0, void 0, void 0, fu
     });
     return result;
 });
+const deleteTravelHelper = (id) => __awaiter(void 0, void 0, void 0, function* () {
+    const isTravelHelperExists = yield helpers_schema_1.TravelHelpers.findOne({ _id: id });
+    if (!isTravelHelperExists) {
+        throw new ApiError_1.default(http_status_1.default.NOT_FOUND, "Travel Helper Not Found");
+    }
+    const result = yield helpers_schema_1.TravelHelpers.findOneAndDelete({ _id: id }, {
+        new: true,
+    });
+    return result;
+});
 exports.TravelHelpersService = {
     uploadTravelHelpers,
     getAllTravelHelpers,
     updateTravelHelper,
+    deleteTravelHelper,
 };

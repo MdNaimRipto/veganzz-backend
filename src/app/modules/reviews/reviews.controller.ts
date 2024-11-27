@@ -78,10 +78,25 @@ const getProductsReviewAndRatingCount = catchAsync(
   },
 );
 
+// Delete
+const deleteReview = catchAsync(async (req: Request, res: Response) => {
+  const { id } = req.params;
+
+  const result = await ReviewsService.deleteReview(id);
+
+  sendResponse(res, {
+    success: true,
+    statusCode: httpStatus.OK,
+    message: "Review Deleted Successfully",
+    data: result,
+  });
+});
+
 export const ReviewsController = {
   uploadReview,
   updateReviewStatus,
   getAllReviews,
   getAllReviewsByProduct,
   getProductsReviewAndRatingCount,
+  deleteReview,
 };

@@ -77,9 +77,21 @@ const updateRecipe = (0, catchAsync_1.default)((req, res) => __awaiter(void 0, v
         data: result,
     });
 }));
+// Delete
+const deleteRecipe = (0, catchAsync_1.default)((req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const { id } = req.params;
+    const result = yield recipes_service_1.recipesService.deleteRecipe(id);
+    (0, sendResponse_1.default)(res, {
+        success: true,
+        statusCode: http_status_1.default.OK,
+        message: "Recipe Deleted Successfully",
+        data: result,
+    });
+}));
 exports.recipesController = {
     uploadRecipe,
     getAllRecipes,
     getRecipeDetails,
     updateRecipe,
+    deleteRecipe,
 };

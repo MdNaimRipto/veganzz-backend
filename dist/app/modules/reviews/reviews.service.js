@@ -131,10 +131,21 @@ const getProductsReviewAndRatingCount = (productId) => __awaiter(void 0, void 0,
         avgRating: avgRating,
     };
 });
+const deleteReview = (id) => __awaiter(void 0, void 0, void 0, function* () {
+    const isReviewsExists = yield reviews_schema_1.Reviews.findOne({ _id: id });
+    if (!isReviewsExists) {
+        throw new ApiError_1.default(http_status_1.default.NOT_FOUND, "Review Not Found");
+    }
+    const result = yield reviews_schema_1.Reviews.findOneAndDelete({ _id: id }, {
+        new: true,
+    });
+    return result;
+});
 exports.ReviewsService = {
     uploadReview,
     getAllReviews,
     getAllReviewsByProduct,
     getProductsReviewAndRatingCount,
     updateReviewStatus,
+    deleteReview,
 };

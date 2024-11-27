@@ -15,4 +15,6 @@ router.get("/getAllEBook", EBookController.getAllEBook);
 
 router.patch("/updateEBook/:id", EBookController.updateEBook);
 
+router.delete("/deleteEBook/:id", EBookController.deleteEBook);
+
 export const EBookRouter = router;

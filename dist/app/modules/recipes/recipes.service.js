@@ -93,9 +93,20 @@ const updateRecipe = (id, payload) => __awaiter(void 0, void 0, void 0, function
     });
     return result;
 });
+const deleteRecipe = (id) => __awaiter(void 0, void 0, void 0, function* () {
+    const isRecipeExists = yield recipes_schema_1.Recipes.findOne({ _id: id });
+    if (!isRecipeExists) {
+        throw new ApiError_1.default(http_status_1.default.NOT_FOUND, "Recipe Not Found");
+    }
+    const result = yield recipes_schema_1.Recipes.findOneAndDelete({ _id: id }, {
+        new: true,
+    });
+    return result;
+});
 exports.recipesService = {
     uploadRecipe,
     getAllRecipes,
     getRecipeDetails,
     updateRecipe,
+    deleteRecipe,
 };

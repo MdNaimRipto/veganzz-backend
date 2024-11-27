@@ -66,9 +66,24 @@ const updateRecipe = catchAsync(async (req: Request, res: Response) => {
   });
 });
 
+// Delete
+const deleteRecipe = catchAsync(async (req: Request, res: Response) => {
+  const { id } = req.params;
+
+  const result = await recipesService.deleteRecipe(id);
+
+  sendResponse(res, {
+    success: true,
+    statusCode: httpStatus.OK,
+    message: "Recipe Deleted Successfully",
+    data: result,
+  });
+});
+
 export const recipesController = {
   uploadRecipe,
   getAllRecipes,
   getRecipeDetails,
   updateRecipe,
+  deleteRecipe,
 };

@@ -52,8 +52,23 @@ const updateTravelHelper = catchAsync(async (req: Request, res: Response) => {
   });
 });
 
+// Delete
+const deleteTravelHelper = catchAsync(async (req: Request, res: Response) => {
+  const { id } = req.params;
+
+  const result = await TravelHelpersService.deleteTravelHelper(id);
+
+  sendResponse(res, {
+    success: true,
+    statusCode: httpStatus.OK,
+    message: "Travel Helper Deleted Successfully",
+    data: result,
+  });
+});
+
 export const TravelHelpersController = {
   uploadTravelHelpers,
   getAllTravelHelpers,
   updateTravelHelper,
+  deleteTravelHelper,
 };

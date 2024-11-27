@@ -14,6 +14,7 @@ const reviews_router_1 = require("../modules/reviews/reviews.router");
 const booking_router_1 = require("../modules/booking/booking.router");
 const houseHold_router_1 = require("../modules/houseHold/houseHold.router");
 const eBook_router_1 = require("../modules/eBook/eBook.router");
+const carousal_router_1 = require("../modules/carousal/carousal.router");
 const router = express_1.default.Router();
 const routes = [
     {
@@ -51,6 +52,10 @@ const routes = [
     {
         path: "/e-book",
         route: eBook_router_1.EBookRouter,
+    },
+    {
+        path: "/carousal",
+        route: carousal_router_1.CarousalRouter,
     },
 ];
 routes.map(r => router.use(r.path, r.route));

@@ -57,7 +57,7 @@ const updateCarousal = catchAsync(async (req: Request, res: Response) => {
   });
 });
 
-// Update
+// Delete
 const deleteCarousal = catchAsync(async (req: Request, res: Response) => {
   const { id } = req.params;
 

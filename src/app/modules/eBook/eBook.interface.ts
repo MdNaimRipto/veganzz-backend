@@ -1,12 +1,15 @@
-export type statusEnums = "PUBLISHED" | "DELETED";
+export type statusEnums = "PUBLISHED" | "PAUSED";
+export type eBookTypesEnum = "PHYSICAL" | "VIRTUAL";
 
 export interface IEBook {
   name: string;
-  mainImg: string;
-  otherImages: Array<string>;
+  // Will remove main and sub img and add one image
+  image: string;
   subDescription: string;
   mainDescription: string;
   price: number;
+  productType: eBookTypesEnum;
+  pdf: null | string;
   status: statusEnums;
   dateAdded: string;
 }

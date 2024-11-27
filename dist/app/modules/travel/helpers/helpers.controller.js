@@ -63,8 +63,20 @@ const updateTravelHelper = (0, catchAsync_1.default)((req, res) => __awaiter(voi
         data: result,
     });
 }));
+// Delete
+const deleteTravelHelper = (0, catchAsync_1.default)((req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const { id } = req.params;
+    const result = yield helpers_service_1.TravelHelpersService.deleteTravelHelper(id);
+    (0, sendResponse_1.default)(res, {
+        success: true,
+        statusCode: http_status_1.default.OK,
+        message: "Travel Helper Deleted Successfully",
+        data: result,
+    });
+}));
 exports.TravelHelpersController = {
     uploadTravelHelpers,
     getAllTravelHelpers,
     updateTravelHelper,
+    deleteTravelHelper,
 };

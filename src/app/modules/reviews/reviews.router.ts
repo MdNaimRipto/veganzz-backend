@@ -25,4 +25,6 @@ router.get(
   ReviewsController.getProductsReviewAndRatingCount,
 );
 
+router.delete("/deleteReview/:id", ReviewsController.deleteReview);
+
 export const ReviewsRouter = router;

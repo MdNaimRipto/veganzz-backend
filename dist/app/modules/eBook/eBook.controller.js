@@ -66,8 +66,20 @@ const updateEBook = (0, catchAsync_1.default)((req, res) => __awaiter(void 0, vo
         data: result,
     });
 }));
+// Delete
+const deleteEBook = (0, catchAsync_1.default)((req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const { id } = req.params;
+    const result = yield eBook_service_1.EBookService.deleteEBook(id);
+    (0, sendResponse_1.default)(res, {
+        success: true,
+        statusCode: http_status_1.default.OK,
+        message: "Book Deleted Successfully",
+        data: result,
+    });
+}));
 exports.EBookController = {
     uploadEBook,
     getAllEBook,
     updateEBook,
+    deleteEBook,
 };

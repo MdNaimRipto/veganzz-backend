@@ -34,8 +34,19 @@ const updateBeauty = (id, payload) => __awaiter(void 0, void 0, void 0, function
     });
     return result;
 });
+const deleteBeauty = (id) => __awaiter(void 0, void 0, void 0, function* () {
+    const isBeautyExists = yield beauty_schema_1.Beauty.findOne({ _id: id });
+    if (!isBeautyExists) {
+        throw new ApiError_1.default(http_status_1.default.NOT_FOUND, "Beauty Not Found");
+    }
+    const result = yield beauty_schema_1.Beauty.findOneAndDelete({ _id: id }, {
+        new: true,
+    });
+    return result;
+});
 exports.BeautyService = {
     uploadBeauty,
     getAllBeauty,
     updateBeauty,
+    deleteBeauty,
 };

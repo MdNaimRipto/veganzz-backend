@@ -72,9 +72,21 @@ const updateTravelLocations = (0, catchAsync_1.default)((req, res) => __awaiter(
         data: result,
     });
 }));
+// Delete
+const deleteTravel = (0, catchAsync_1.default)((req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const { id } = req.params;
+    const result = yield travel_service_1.TravelsService.deleteTravel(id);
+    (0, sendResponse_1.default)(res, {
+        success: true,
+        statusCode: http_status_1.default.OK,
+        message: "Travel Deleted Successfully",
+        data: result,
+    });
+}));
 exports.TravelsController = {
     uploadTravels,
     getAllTravelLocations,
     getTravelLocationDetails,
     updateTravelLocations,
+    deleteTravel,
 };

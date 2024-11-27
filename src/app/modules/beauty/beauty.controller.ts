@@ -46,8 +46,23 @@ const updateBeauty = catchAsync(async (req: Request, res: Response) => {
   });
 });
 
+// Delete
+const deleteBeauty = catchAsync(async (req: Request, res: Response) => {
+  const { id } = req.params;
+
+  const result = await BeautyService.deleteBeauty(id);
+
+  sendResponse(res, {
+    success: true,
+    statusCode: httpStatus.OK,
+    message: "Beauty Deleted Successfully",
+    data: result,
+  });
+});
+
 export const BeautyController = {
   uploadBeauty,
   getAllBeauty,
   updateBeauty,
+  deleteBeauty,
 };

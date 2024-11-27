@@ -15,4 +15,6 @@ router.get("/getAllBeauty", BeautyController.getAllBeauty);
 
 router.patch("/updateBeauty/:id", BeautyController.updateBeauty);
 
+router.delete("/deleteBeauty/:id", BeautyController.deleteBeauty);
+
 export const BeautyRouter = router;

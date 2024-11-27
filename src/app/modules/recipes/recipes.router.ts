@@ -17,4 +17,6 @@ router.get("/getRecipeDetails/:id", recipesController.getRecipeDetails);
 
 router.patch("/updateRecipe/:id", recipesController.updateRecipe);
 
+router.delete("/deleteRecipe/:id", recipesController.deleteRecipe);
+
 export const RecipesRouter = router;

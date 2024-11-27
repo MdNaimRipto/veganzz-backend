@@ -13,4 +13,5 @@ router.post("/uploadRecipe", (0, zodValidationRequest_1.default)(recipes_validat
 router.get("/getAllRecipes", recipes_controller_1.recipesController.getAllRecipes);
 router.get("/getRecipeDetails/:id", recipes_controller_1.recipesController.getRecipeDetails);
 router.patch("/updateRecipe/:id", recipes_controller_1.recipesController.updateRecipe);
+router.delete("/deleteRecipe/:id", recipes_controller_1.recipesController.deleteRecipe);
 exports.RecipesRouter = router;

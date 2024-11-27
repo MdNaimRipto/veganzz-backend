@@ -107,9 +107,26 @@ const updateRecipe = async (
   return result;
 };
 
+const deleteRecipe = async (id: string): Promise<IRecipe | null> => {
+  const isRecipeExists = await Recipes.findOne({ _id: id });
+  if (!isRecipeExists) {
+    throw new ApiError(httpStatus.NOT_FOUND, "Recipe Not Found");
+  }
+
+  const result = await Recipes.findOneAndDelete(
+    { _id: id },
+    {
+      new: true,
+    },
+  );
+
+  return result;
+};
+
 export const recipesService = {
   uploadRecipe,
   getAllRecipes,
   getRecipeDetails,
   updateRecipe,
+  deleteRecipe,
 };

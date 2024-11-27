@@ -14,4 +14,5 @@ router.patch("/updateReviewStatus", reviews_controller_1.ReviewsController.updat
 router.get("/getAllReviews", reviews_controller_1.ReviewsController.getAllReviews);
 router.get("/getAllReviewsByProduct/:productId", reviews_controller_1.ReviewsController.getAllReviewsByProduct);
 router.get("/getProductsReviewAndRatingCount/:productId", reviews_controller_1.ReviewsController.getProductsReviewAndRatingCount);
+router.delete("/deleteReview/:id", reviews_controller_1.ReviewsController.deleteReview);
 exports.ReviewsRouter = router;

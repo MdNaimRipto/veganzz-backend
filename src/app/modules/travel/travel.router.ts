@@ -17,4 +17,6 @@ router.get("/getTravelDetails/:id", TravelsController.getTravelLocationDetails);
 
 router.patch("/updateTravel/:id", TravelsController.updateTravelLocations);
 
+router.delete("/deleteTravel/:id", TravelsController.deleteTravel);
+
 export const TravelsRouter = router;

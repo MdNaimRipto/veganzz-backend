@@ -85,10 +85,22 @@ const getProductsReviewAndRatingCount = (0, catchAsync_1.default)((req, res) => 
         data: result,
     });
 }));
+// Delete
+const deleteReview = (0, catchAsync_1.default)((req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const { id } = req.params;
+    const result = yield reviews_service_1.ReviewsService.deleteReview(id);
+    (0, sendResponse_1.default)(res, {
+        success: true,
+        statusCode: http_status_1.default.OK,
+        message: "Review Deleted Successfully",
+        data: result,
+    });
+}));
 exports.ReviewsController = {
     uploadReview,
     updateReviewStatus,
     getAllReviews,
     getAllReviewsByProduct,
     getProductsReviewAndRatingCount,
+    deleteReview,
 };

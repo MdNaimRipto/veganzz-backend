@@ -29,10 +29,6 @@ const ApiError_1 = __importDefault(require("../../../errors/ApiError"));
 const eBook_schema_1 = require("./eBook.schema");
 const paginationHelpers_1 = require("../../../helpers/paginationHelpers");
 const uploadEBook = (payload) => __awaiter(void 0, void 0, void 0, function* () {
-    const { otherImages } = payload;
-    if (!otherImages.length) {
-        throw new ApiError_1.default(http_status_1.default.BAD_REQUEST, "Other Images Cannot be Empty");
-    }
     const result = yield eBook_schema_1.EBook.create(payload);
     return result;
 });
@@ -71,12 +67,22 @@ const updateEBook = (id, payload) => __awaiter(void 0, void 0, void 0, function*
     if (!isProductExists) {
         throw new ApiError_1.default(http_status_1.default.NOT_FOUND, "Product Not Found!");
     }
-    const { otherImages } = payload, restPayload = __rest(payload, ["otherImages"]);
-    const updatablePayload = restPayload;
-    if (otherImages) {
-        updatablePayload.otherImages = otherImages;
+    const { productType } = payload, restPayload = __rest(payload, ["productType"]);
+    if (productType !== undefined) {
+        throw new ApiError_1.default(http_status_1.default.BAD_REQUEST, "Type cannot be updatable");
     }
+    const updatablePayload = restPayload;
     const result = yield eBook_schema_1.EBook.findOneAndUpdate({ _id: id }, updatablePayload, {
+        new: true,
+    });
+    return result;
+});
+const deleteEBook = (id) => __awaiter(void 0, void 0, void 0, function* () {
+    const isEBookExists = yield eBook_schema_1.EBook.findOne({ _id: id });
+    if (!isEBookExists) {
+        throw new ApiError_1.default(http_status_1.default.NOT_FOUND, "EBook Not Found");
+    }
+    const result = yield eBook_schema_1.EBook.findOneAndDelete({ _id: id }, {
         new: true,
     });
     return result;
@@ -85,4 +91,5 @@ exports.EBookService = {
     uploadEBook,
     getAllEBook,
     updateEBook,
+    deleteEBook,
 };

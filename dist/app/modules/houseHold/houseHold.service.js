@@ -34,8 +34,19 @@ const updateHouseHold = (id, payload) => __awaiter(void 0, void 0, void 0, funct
     });
     return result;
 });
+const deleteHouseHold = (id) => __awaiter(void 0, void 0, void 0, function* () {
+    const isHouseHoldExists = yield houseHold_schema_1.HouseHold.findOne({ _id: id });
+    if (!isHouseHoldExists) {
+        throw new ApiError_1.default(http_status_1.default.NOT_FOUND, "HouseHold Not Found");
+    }
+    const result = yield houseHold_schema_1.HouseHold.findOneAndDelete({ _id: id }, {
+        new: true,
+    });
+    return result;
+});
 exports.HouseHoldService = {
     uploadHouseHold,
     getAllHouseHold,
     updateHouseHold,
+    deleteHouseHold,
 };

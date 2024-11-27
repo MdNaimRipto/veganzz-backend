@@ -46,8 +46,23 @@ const updateHouseHold = catchAsync(async (req: Request, res: Response) => {
   });
 });
 
+// Delete
+const deleteHouseHold = catchAsync(async (req: Request, res: Response) => {
+  const { id } = req.params;
+
+  const result = await HouseHoldService.deleteHouseHold(id);
+
+  sendResponse(res, {
+    success: true,
+    statusCode: httpStatus.OK,
+    message: "HouseHold Deleted Successfully",
+    data: result,
+  });
+});
+
 export const HouseHoldController = {
   uploadHouseHold,
   getAllHouseHold,
   updateHouseHold,
+  deleteHouseHold,
 };

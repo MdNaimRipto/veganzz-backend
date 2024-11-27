@@ -12,4 +12,5 @@ const router = express_1.default.Router();
 router.post("/uploadBeauty", (0, zodValidationRequest_1.default)(beauty_validation_1.beautyValidation.uploadBeautyZodSchema), beauty_controller_1.BeautyController.uploadBeauty);
 router.get("/getAllBeauty", beauty_controller_1.BeautyController.getAllBeauty);
 router.patch("/updateBeauty/:id", beauty_controller_1.BeautyController.updateBeauty);
+router.delete("/deleteBeauty/:id", beauty_controller_1.BeautyController.deleteBeauty);
 exports.BeautyRouter = router;

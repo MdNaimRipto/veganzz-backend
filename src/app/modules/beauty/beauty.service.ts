@@ -29,8 +29,25 @@ const updateBeauty = async (
   return result;
 };
 
+const deleteBeauty = async (id: string): Promise<IBeauty | null> => {
+  const isBeautyExists = await Beauty.findOne({ _id: id });
+  if (!isBeautyExists) {
+    throw new ApiError(httpStatus.NOT_FOUND, "Beauty Not Found");
+  }
+
+  const result = await Beauty.findOneAndDelete(
+    { _id: id },
+    {
+      new: true,
+    },
+  );
+
+  return result;
+};
+
 export const BeautyService = {
   uploadBeauty,
   getAllBeauty,
   updateBeauty,
+  deleteBeauty,
 };

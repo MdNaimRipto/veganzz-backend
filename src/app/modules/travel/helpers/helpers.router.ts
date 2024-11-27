@@ -18,4 +18,6 @@ router.get(
 
 router.patch("/updateHelper/:id", TravelHelpersController.updateTravelHelper);
 
+router.delete("/deleteHelper/:id", TravelHelpersController.deleteTravelHelper);
+
 export const HelpersRouter = router;

@@ -13,4 +13,5 @@ router.post("/uploadTravel", (0, zodValidationRequest_1.default)(travel_validati
 router.get("/getAllTravels", travel_controller_1.TravelsController.getAllTravelLocations);
 router.get("/getTravelDetails/:id", travel_controller_1.TravelsController.getTravelLocationDetails);
 router.patch("/updateTravel/:id", travel_controller_1.TravelsController.updateTravelLocations);
+router.delete("/deleteTravel/:id", travel_controller_1.TravelsController.deleteTravel);
 exports.TravelsRouter = router;

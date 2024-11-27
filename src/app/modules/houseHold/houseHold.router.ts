@@ -15,4 +15,6 @@ router.get("/getAllHouseHold", HouseHoldController.getAllHouseHold);
 
 router.patch("/updateHouseHold/:id", HouseHoldController.updateHouseHold);
 
+router.delete("/deleteHouseHold/:id", HouseHoldController.deleteHouseHold);
+
 export const HouseHoldRouter = router;

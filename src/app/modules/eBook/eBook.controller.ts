@@ -50,8 +50,23 @@ const updateEBook = catchAsync(async (req: Request, res: Response) => {
   });
 });
 
+// Delete
+const deleteEBook = catchAsync(async (req: Request, res: Response) => {
+  const { id } = req.params;
+
+  const result = await EBookService.deleteEBook(id);
+
+  sendResponse(res, {
+    success: true,
+    statusCode: httpStatus.OK,
+    message: "Book Deleted Successfully",
+    data: result,
+  });
+});
+
 export const EBookController = {
   uploadEBook,
   getAllEBook,
   updateEBook,
+  deleteEBook,
 };

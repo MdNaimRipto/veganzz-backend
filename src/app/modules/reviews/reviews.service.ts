@@ -178,10 +178,27 @@ const getProductsReviewAndRatingCount = async (productId: string) => {
   };
 };
 
+const deleteReview = async (id: string): Promise<IReviews | null> => {
+  const isReviewsExists = await Reviews.findOne({ _id: id });
+  if (!isReviewsExists) {
+    throw new ApiError(httpStatus.NOT_FOUND, "Review Not Found");
+  }
+
+  const result = await Reviews.findOneAndDelete(
+    { _id: id },
+    {
+      new: true,
+    },
+  );
+
+  return result;
+};
+
 export const ReviewsService = {
   uploadReview,
   getAllReviews,
   getAllReviewsByProduct,
   getProductsReviewAndRatingCount,
   updateReviewStatus,
+  deleteReview,
 };

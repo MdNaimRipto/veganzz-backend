@@ -12,4 +12,5 @@ const router = express_1.default.Router();
 router.post("/uploadHouseHold", (0, zodValidationRequest_1.default)(houseHold_validation_1.houseHoldValidation.uploadHouseHoldZodSchema), houseHold_controller_1.HouseHoldController.uploadHouseHold);
 router.get("/getAllHouseHold", houseHold_controller_1.HouseHoldController.getAllHouseHold);
 router.patch("/updateHouseHold/:id", houseHold_controller_1.HouseHoldController.updateHouseHold);
+router.delete("/deleteHouseHold/:id", houseHold_controller_1.HouseHoldController.deleteHouseHold);
 exports.HouseHoldRouter = router;

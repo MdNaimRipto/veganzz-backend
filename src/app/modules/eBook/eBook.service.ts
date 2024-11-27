@@ -10,12 +10,6 @@ import { calculatePaginationFunction } from "../../../helpers/paginationHelpers"
 import { SortOrder } from "mongoose";
 
 const uploadEBook = async (payload: IEBook): Promise<IEBook | null> => {
-  const { otherImages } = payload;
-
-  if (!otherImages.length) {
-    throw new ApiError(httpStatus.BAD_REQUEST, "Other Images Cannot be Empty");
-  }
-
   const result = await EBook.create(payload);
   return result;
 };
@@ -72,13 +66,13 @@ const updateEBook = async (
     throw new ApiError(httpStatus.NOT_FOUND, "Product Not Found!");
   }
 
-  const { otherImages, ...restPayload } = payload;
+  const { productType, ...restPayload } = payload;
+
+  if (productType !== undefined) {
+    throw new ApiError(httpStatus.BAD_REQUEST, "Type cannot be updatable");
+  }
 
   const updatablePayload = restPayload as any;
-
-  if (otherImages) {
-    updatablePayload.otherImages = otherImages;
-  }
 
   const result = await EBook.findOneAndUpdate({ _id: id }, updatablePayload, {
     new: true,
@@ -87,8 +81,25 @@ const updateEBook = async (
   return result;
 };
 
+const deleteEBook = async (id: string): Promise<IEBook | null> => {
+  const isEBookExists = await EBook.findOne({ _id: id });
+  if (!isEBookExists) {
+    throw new ApiError(httpStatus.NOT_FOUND, "EBook Not Found");
+  }
+
+  const result = await EBook.findOneAndDelete(
+    { _id: id },
+    {
+      new: true,
+    },
+  );
+
+  return result;
+};
+
 export const EBookService = {
   uploadEBook,
   getAllEBook,
   updateEBook,
+  deleteEBook,
 };

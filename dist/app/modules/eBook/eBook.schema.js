@@ -5,8 +5,7 @@ const mongoose_1 = require("mongoose");
 const eBook_constant_1 = require("./eBook.constant");
 const eBookSchema = new mongoose_1.Schema({
     name: { type: String, required: true },
-    mainImg: { type: String, required: true },
-    otherImages: [{ type: String, required: true }],
+    image: { type: String, required: true },
     subDescription: { type: String, required: true },
     mainDescription: { type: String, required: true },
     price: { type: Number, required: true, min: 1 },
@@ -16,6 +15,12 @@ const eBookSchema = new mongoose_1.Schema({
         required: true,
         default: "PUBLISHED",
     },
+    productType: {
+        type: String,
+        enum: eBook_constant_1.EBookTypeEnums,
+        required: true,
+    },
+    pdf: { type: String, required: false, default: null },
     dateAdded: { type: String, required: true },
 });
 exports.EBook = (0, mongoose_1.model)("EBook", eBookSchema);

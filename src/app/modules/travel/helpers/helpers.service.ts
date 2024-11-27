@@ -71,8 +71,27 @@ const updateTravelHelper = async (
   return result;
 };
 
+const deleteTravelHelper = async (
+  id: string,
+): Promise<ITravelHelper | null> => {
+  const isTravelHelperExists = await TravelHelpers.findOne({ _id: id });
+  if (!isTravelHelperExists) {
+    throw new ApiError(httpStatus.NOT_FOUND, "Travel Helper Not Found");
+  }
+
+  const result = await TravelHelpers.findOneAndDelete(
+    { _id: id },
+    {
+      new: true,
+    },
+  );
+
+  return result;
+};
+
 export const TravelHelpersService = {
   uploadTravelHelpers,
   getAllTravelHelpers,
   updateTravelHelper,
+  deleteTravelHelper,
 };

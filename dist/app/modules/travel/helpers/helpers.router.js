@@ -12,4 +12,5 @@ const router = express_1.default.Router();
 router.post("/uploadHelper", (0, zodValidationRequest_1.default)(helpers_validation_1.travelHelpersValidation.uploadTravelHelperZodSchema), helpers_controller_1.TravelHelpersController.uploadTravelHelpers);
 router.get("/getAllHelpers/:travelId", helpers_controller_1.TravelHelpersController.getAllTravelHelpers);
 router.patch("/updateHelper/:id", helpers_controller_1.TravelHelpersController.updateTravelHelper);
+router.delete("/deleteHelper/:id", helpers_controller_1.TravelHelpersController.deleteTravelHelper);
 exports.HelpersRouter = router;
