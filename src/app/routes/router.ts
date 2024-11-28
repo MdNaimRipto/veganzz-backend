@@ -63,6 +63,10 @@ const routes = [
     path: "/order",
     route: OrdersRouter,
   },
+  {
+    path: "/stripe",
+    route: StripeRouter,
+  },
 ];
 
 routes.map(r => router.use(r.path, r.route));
