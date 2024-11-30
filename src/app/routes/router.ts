@@ -13,6 +13,7 @@ import { StripeRouter } from "../modules/stripe/stripe.router";
 import { OrdersRouter } from "../modules/order/order.router";
 import { WishlistRouter } from "../modules/wishlist/reviews.router";
 import { AdminRouter } from "../modules/admin/admin.router";
+import { ArticleRouter } from "../modules/articles/articles.router";
 
 const router = express.Router();
 
@@ -72,6 +73,10 @@ const routes = [
   {
     path: "/admin",
     route: AdminRouter,
+  },
+  {
+    path: "/article",
+    route: ArticleRouter,
   },
 ];
 
