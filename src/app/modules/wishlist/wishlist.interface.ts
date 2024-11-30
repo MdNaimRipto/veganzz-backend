@@ -1,3 +1,6 @@
+import { Types } from "mongoose";
+import { IRecipe } from "../recipes/recipes.interface";
+
 export type wishlistForEnumTypes =
   | "BOOK"
   | "RECIPE"
@@ -6,7 +9,7 @@ export type wishlistForEnumTypes =
   | "TRAVEL_COSMETICS";
 
 export interface IWishlist {
-  productId: string;
+  productId: Types.ObjectId | IRecipe;
   userId: string;
   wishlistFor: wishlistForEnumTypes;
 }

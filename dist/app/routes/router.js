@@ -18,6 +18,7 @@ const carousal_router_1 = require("../modules/carousal/carousal.router");
 const stripe_router_1 = require("../modules/stripe/stripe.router");
 const order_router_1 = require("../modules/order/order.router");
 const reviews_router_2 = require("../modules/wishlist/reviews.router");
+const admin_router_1 = require("../modules/admin/admin.router");
 const router = express_1.default.Router();
 const routes = [
     {
@@ -71,6 +72,10 @@ const routes = [
     {
         path: "/wishlist",
         route: reviews_router_2.WishlistRouter,
+    },
+    {
+        path: "/admin",
+        route: admin_router_1.AdminRouter,
     },
 ];
 routes.map(r => router.use(r.path, r.route));

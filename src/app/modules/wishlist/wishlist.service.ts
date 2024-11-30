@@ -60,7 +60,10 @@ const uploadWishlist = async (
 };
 
 const getUserWishlists = async (userId: string): Promise<IWishlist[]> => {
-  const result = await Wishlists.find({ userId });
+  const result = await Wishlists.find({ userId }).populate({
+    path: "productId",
+    select: "_id image name",
+  });
   return result;
 };
 

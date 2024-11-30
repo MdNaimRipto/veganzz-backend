@@ -56,7 +56,10 @@ const uploadWishlist = (payload) => __awaiter(void 0, void 0, void 0, function* 
     return result;
 });
 const getUserWishlists = (userId) => __awaiter(void 0, void 0, void 0, function* () {
-    const result = yield wishlist_schema_1.Wishlists.find({ userId });
+    const result = yield wishlist_schema_1.Wishlists.find({ userId }).populate({
+        path: "productId",
+        select: "_id image name",
+    });
     return result;
 });
 const isAddedWishlist = (userId, productId) => __awaiter(void 0, void 0, void 0, function* () {

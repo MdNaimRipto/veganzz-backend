@@ -12,6 +12,7 @@ import { CarousalRouter } from "../modules/carousal/carousal.router";
 import { StripeRouter } from "../modules/stripe/stripe.router";
 import { OrdersRouter } from "../modules/order/order.router";
 import { WishlistRouter } from "../modules/wishlist/reviews.router";
+import { AdminRouter } from "../modules/admin/admin.router";
 
 const router = express.Router();
 
@@ -67,6 +68,10 @@ const routes = [
   {
     path: "/wishlist",
     route: WishlistRouter,
+  },
+  {
+    path: "/admin",
+    route: AdminRouter,
   },
 ];
 
