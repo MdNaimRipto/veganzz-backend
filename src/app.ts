@@ -1,28 +1,34 @@
 import cors from "cors";
 import express, { Application, Request, Response } from "express";
 import httpStatus from "http-status";
-import { StripeWebHookController } from "./app/modules/stripe/stripe.webhook";
+import { StripeWebHook } from "./app/modules/stripe/stripe.webhook";
 import { Routers } from "./app/routes/router";
 import pathNotFoundErrorHandler from "./errors/pathNotFoundErrorHandler";
 import globalErrorHandler from "./middlewares/globalErrorHandler";
+import Stripe from "stripe";
+import config from "./config/config";
+import { StripeController } from "./app/modules/stripe/stripe.controller";
 
 const app: Application = express();
 
 // ? Middlewares:
 app.use(cors());
+app.use(express.urlencoded({ extended: true }));
 
-// Middleware to parse JSON bodies, with special verification for Stripe's webhook
+// * Stripe
+export const stripe = new Stripe(config.stripe_key);
+
 app.use(
   express.json({
     verify: (req, res, buf) => {
-      // Store the raw body buffer for signature verification
       (req as any).rawBody = buf;
     },
   }),
 );
+// * Stripe Webhook Endpoint (must be added before other routes)
+app.post("/webhook", StripeWebHook.stripeWebHook);
 
-// Middleware for URL-encoded data
-app.use(express.urlencoded({ extended: true }));
+// http://localhost:5835/api/v1.0/stripe/webhook
 
 // * Basic Page
 app.get("/", async (req: Request, res: Response) => {
@@ -31,9 +37,6 @@ app.get("/", async (req: Request, res: Response) => {
     statusCode: httpStatus.OK,
   });
 });
-
-// * Stripe Webhook Endpoint (must be added before other routes)
-app.post("/webhook", StripeWebHookController.stripeWebHook);
 
 //* Main endpoint
 app.use("/api/v1.0", Routers);

@@ -1,17 +1,35 @@
 import Stripe from "stripe";
+import { stripe } from "../../../app";
+import ApiError from "../../../errors/ApiError";
+import httpStatus from "http-status";
+import config from "../../../config/config";
+import { IMetaData, IOrder } from "../order/order.interface";
+import { Orders } from "../order/order.schema";
+import { EBook } from "../eBook/eBook.schema";
 
-const stripe = new Stripe(
-  "sk_test_51O6s4VLCDszH51fdVtHC181Q5YQPJgJbWqi2mIeMlR5Gc6txEyFLEngdFhRVS1106PQBENHadrYYZe17fZ1AbHHv00L6aRhoVx",
-  {
-    appInfo: {
-      name: "Veganezz-Backend",
-    },
-  },
-);
+// const stripe = new Stripe(config.stripe_key, {
+//   appInfo: {
+//     name: "Veganezz-Backend",
+//   },
+// });
 
 const stripeCheckout = async (payload: any) => {
-  const { userId, productName, productPrice, quantity } = payload;
-  console.log("🚀 ~ userId:", userId);
+  const {
+    userId,
+    quantity,
+    orderDate,
+    orderType,
+    productId,
+    location,
+    price,
+    orderStatus,
+    pdf,
+  } = payload;
+
+  const isProductExists = await EBook.findOne({ _id: productId });
+  if (!isProductExists) {
+    throw new ApiError(httpStatus.NOT_FOUND, "Product Not Found");
+  }
 
   try {
     const checkoutSession = await stripe.checkout.sessions.create({
@@ -21,20 +39,26 @@ const stripeCheckout = async (payload: any) => {
           price_data: {
             currency: "usd",
             product_data: {
-              name: productName,
-              images: [
-                "https://cdn.kobo.com/book-images/f0b484d6-a550-496f-beb6-813b1a650fe7/353/569/90/False/all-the-colors-of-the-dark-a-read-with-jenna-pick.jpg",
-              ],
+              name: isProductExists.name,
+              images: [isProductExists.image],
             },
-            unit_amount: productPrice * 100, // Assuming productPrice is in dollars, convert to cents
+            unit_amount: isProductExists.price * 100, // Assuming productPrice is in dollars, convert to cents
           },
           quantity: quantity,
         },
       ],
-      success_url: `http://localhost:3000/payment-success?session_id={CHECKOUT_SESSION_ID}`,
+      success_url: `http://localhost:3000/myprofile`,
       cancel_url: `http://localhost:3000`,
       metadata: {
         userId,
+        productId,
+        quantity,
+        orderDate,
+        orderType,
+        location,
+        price,
+        orderStatus,
+        pdf,
       },
     });
 

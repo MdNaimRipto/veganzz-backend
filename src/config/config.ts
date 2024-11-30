@@ -18,4 +18,6 @@ export default {
   redis_crypto_key: process.env.REDIS_CRYPTO_KEY as string,
   nodemailer_user: process.env.NODEMAILER_USER as string,
   nodemailer_pass: process.env.NODEMAILER_PASS as string,
+  stripe_key: process.env.STRIPE_KEY as string,
+  stripe_secret: process.env.STRIPE_SECRET as string,
 };

@@ -1,5 +1,4 @@
 import { z } from "zod";
-import { RecipeTypesEnums } from "./order.contstant";
 
 const uploadRecipeZodSchema = z.object({
   body: z.object({
@@ -8,9 +7,6 @@ const uploadRecipeZodSchema = z.object({
     }),
     image: z.string({
       required_error: "Image is Required",
-    }),
-    type: z.enum([...RecipeTypesEnums] as [string, ...string[]], {
-      required_error: "Recipe Type is Required",
     }),
     subDescription: z.string({
       required_error: "Sub/Short Description is Required",

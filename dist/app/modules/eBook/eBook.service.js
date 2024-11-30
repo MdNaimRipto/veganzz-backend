@@ -67,9 +67,9 @@ const updateEBook = (id, payload) => __awaiter(void 0, void 0, void 0, function*
     if (!isProductExists) {
         throw new ApiError_1.default(http_status_1.default.NOT_FOUND, "Product Not Found!");
     }
-    const { productType } = payload, restPayload = __rest(payload, ["productType"]);
-    if (productType !== undefined) {
-        throw new ApiError_1.default(http_status_1.default.BAD_REQUEST, "Type cannot be updatable");
+    const { productType, dateAdded } = payload, restPayload = __rest(payload, ["productType", "dateAdded"]);
+    if (productType !== undefined || dateAdded !== undefined) {
+        throw new ApiError_1.default(http_status_1.default.BAD_REQUEST, "Type And Date Added cannot be updatable");
     }
     const updatablePayload = restPayload;
     const result = yield eBook_schema_1.EBook.findOneAndUpdate({ _id: id }, updatablePayload, {

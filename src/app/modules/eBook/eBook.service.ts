@@ -66,10 +66,13 @@ const updateEBook = async (
     throw new ApiError(httpStatus.NOT_FOUND, "Product Not Found!");
   }
 
-  const { productType, ...restPayload } = payload;
+  const { productType, dateAdded, ...restPayload } = payload;
 
-  if (productType !== undefined) {
-    throw new ApiError(httpStatus.BAD_REQUEST, "Type cannot be updatable");
+  if (productType !== undefined || dateAdded !== undefined) {
+    throw new ApiError(
+      httpStatus.BAD_REQUEST,
+      "Type And Date Added cannot be updatable",
+    );
   }
 
   const updatablePayload = restPayload as any;

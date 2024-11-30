@@ -3,27 +3,22 @@ import httpStatus from "http-status";
 import Stripe from "stripe";
 
 import * as dotenv from "dotenv";
+import config from "../../../config/config";
+import ApiError from "../../../errors/ApiError";
+import { Orders } from "../order/order.schema";
 dotenv.config();
 
 // Initialize Stripe
-const stripe = new Stripe(
-  "sk_test_51O6s4VLCDszH51fdVtHC181Q5YQPJgJbWqi2mIeMlR5Gc6txEyFLEngdFhRVS1106PQBENHadrYYZe17fZ1AbHHv00L6aRhoVx",
-);
+const stripe = new Stripe(config.stripe_key);
 
 // Webhook secret to verify incoming Stripe events
-const endpointSecret =
-  process.env.STRIPE_WEBHOOK_SECRET ||
-  "whsec_afb100317d7036a8bf0c79636b7bae32125ff3bcd643d0d816c51b155a1a05e0";
+const endpointSecret = config.stripe_secret;
 
 const stripeWebHook = async (req: Request, res: Response): Promise<void> => {
   const sig = req.headers["stripe-signature"];
 
   if (!sig) {
-    console.error("Missing Stripe signature header.");
-    res
-      .status(httpStatus.BAD_REQUEST)
-      .send("Webhook Error: Missing signature.");
-    return;
+    throw new ApiError(httpStatus.BAD_REQUEST, "Signature Not Found!");
   }
 
   let event: Stripe.Event;
@@ -37,12 +32,10 @@ const stripeWebHook = async (req: Request, res: Response): Promise<void> => {
     );
   } catch (err) {
     console.error("⚠️ Webhook signature verification failed.", err);
-    res
-      .status(httpStatus.BAD_REQUEST)
-      .send(
-        `Webhook Error: ${err instanceof Error ? err.message : "Unknown error"}`,
-      );
-    return;
+    throw new ApiError(
+      httpStatus.BAD_REQUEST,
+      `Webhook Error: ${err instanceof Error ? err.message : "Unknown error"}`,
+    );
   }
 
   // Handle the event
@@ -54,19 +47,24 @@ const stripeWebHook = async (req: Request, res: Response): Promise<void> => {
       console.log("🚀 ~ Handling ebook checkout session:", session);
 
       // Extract needed information
-      const userId = session.metadata?.userId;
-      const paymentIntentId = session.payment_intent?.toString(); //save this to db / retrieve and additional info form stripe
-      const paymentStatus = session.payment_status; //save this to db
+      const paymentIntentId = session.payment_intent?.toString();
 
-      console.log("🚀 ~ paymentStatus:", paymentStatus);
-      console.log("🚀 ~ paymentIntentId:", paymentIntentId);
-      // Console log product information
-      if (userId) {
-        console.log("✅ Ebook Product Information:");
-        console.log(`User ID: ${userId}`);
-      } else {
-        console.error("Incomplete product information. Skipping log.");
-      }
+      const orderPayload = {
+        userId: session.metadata?.userId,
+        productId: session.metadata?.productId,
+        orderDate: session.metadata?.orderDate,
+        quantity: session.metadata?.quantity,
+        transactionId: paymentIntentId,
+        orderType: session.metadata?.orderType,
+        location: session.metadata?.location,
+        price: session.metadata?.price,
+        orderStatus: session.metadata?.orderStatus,
+        pdf: session.metadata?.pdf,
+      };
+
+      console.log(orderPayload);
+
+      await Orders.create(orderPayload);
 
       break;
 
@@ -82,6 +80,6 @@ const stripeWebHook = async (req: Request, res: Response): Promise<void> => {
   });
 };
 
-export const StripeWebHookController = {
+export const StripeWebHook = {
   stripeWebHook,
 };

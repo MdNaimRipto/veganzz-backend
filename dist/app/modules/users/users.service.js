@@ -70,7 +70,7 @@ const userRegister = (payload) => __awaiter(void 0, void 0, void 0, function* ()
 
       <div style="text-align: center; margin: 20px 0;">
         <a
-          href="http://localhost:3000/verifyUser?email=${user.email}&uid=${user.uid}"
+          href="http://localhost:3000/auth/verify?email=${user.email}&uid=${user.uid}"
           style="display: inline-block; padding: 10px 20px; color: #fff; background-color: #27ae60; text-decoration: none; border-radius: 4px; font-size: 16px;">
           Verify Email
         </a>
