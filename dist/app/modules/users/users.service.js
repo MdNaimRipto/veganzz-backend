@@ -50,6 +50,7 @@ const userRegister = (payload) => __awaiter(void 0, void 0, void 0, function* ()
     const user = yield users_schema_1.Users.create(payload);
     const transporter = nodemailer_1.default.createTransport({
         host: "smtp.gmail.com",
+        // host: "smtp.office365.com",
         port: 587,
         secure: false,
         auth: {
@@ -59,26 +60,26 @@ const userRegister = (payload) => __awaiter(void 0, void 0, void 0, function* ()
     });
     yield transporter.sendMail({
         to: email,
-        subject: "Welcome to Veganzz! Please Verify Your Email",
+        subject: "Welcome to VeganizZze! Please Verify Your Email",
         html: `
     <div style="font-family: Arial, sans-serif; color: #333; max-width: 600px; margin: 0 auto; padding: 20px; border: 1px solid #ddd; border-radius: 5px;">
-      <h2 style="color: #27ae60; text-align: center;">Welcome to Veganzz!</h2>
+      <h2 style="color: #27ae60; text-align: center;">Welcome to VeganizZze!</h2>
       <p>Hello ${user.name},</p>
-      <p>Thank you for registering with Veganzz. We're excited to have you join our community!</p>
+      <p>Thank you for registering with VeganizZze. We're excited to have you join our community!</p>
 
       <p>Please verify your email address by clicking the link below:</p>
 
       <div style="text-align: center; margin: 20px 0;">
         <a
-          href="http://localhost:3000/auth/verify?email=${user.email}&uid=${user.uid}"
+          href="https://vaganizzze-frontend.vercel.app/auth/verify?email=${user.email}&uid=${user.uid}"
           style="display: inline-block; padding: 10px 20px; color: #fff; background-color: #27ae60; text-decoration: none; border-radius: 4px; font-size: 16px;">
-          Verify Email
+          Verify email
         </a>
       </div>
 
-      <p>If you didn’t create an account with Veganzz, please ignore this email.</p>
+      <p>If you didn’t create an account with VeganizZze, please ignore this email.</p>
 
-      <p>Best Regards,<br>Veganzz Team</p>
+      <p>Best wishes,<br>VeganizZze Team</p>
 
       <hr style="border: none; border-top: 1px solid #eee; margin: 20px 0;">
       <p style="font-size: 12px; color: #777;">This is an automated message, please do not reply to this email.</p>

@@ -1,8 +1,9 @@
-import { IOrder } from "./order.interface";
+import { IPaginationOptions } from "../../../interface/pagination";
+import { IOrder, orderStatusEnums } from "./order.interface";
 import { Orders } from "./order.schema";
 
-const getAllOrders = async () => {
-  const orders = await Orders.find().populate([
+const getAllOrders = async (orderStatus: orderStatusEnums) => {
+  const orders = await Orders.find({ orderStatus }).populate([
     {
       path: "userId",
       select: "_id name email",

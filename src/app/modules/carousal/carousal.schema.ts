@@ -17,6 +17,18 @@ const carousalSchema = new Schema<ICarousal>({
     required: true,
     default: "PAUSED",
   },
+  textSize: {
+    type: String,
+    required: true,
+  },
+  textWeight: {
+    type: String,
+    required: true,
+  },
+  textColor: {
+    type: String,
+    required: true,
+  },
 });
 
 export const Carousal = model<ICarousal>("Carousal", carousalSchema);

@@ -10,8 +10,9 @@ const uploadArticleZodSchema = zod_1.z.object({
         image: zod_1.z.string({
             required_error: "image is Required",
         }),
-        description: zod_1.z.array(zod_1.z.string({ required_error: "Description Required" }), {
-            required_error: "Description Required",
+        description: zod_1.z.string({ required_error: "Description Required" }),
+        textAlign: zod_1.z.string({
+            required_error: "Text Align is Required",
         }),
     }),
 });

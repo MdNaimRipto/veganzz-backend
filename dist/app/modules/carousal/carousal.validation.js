@@ -10,6 +10,15 @@ const uploadCarousalZodSchema = zod_1.z.object({
         image: zod_1.z.string({
             required_error: "image is Required",
         }),
+        textSize: zod_1.z.string({
+            required_error: "textSize is Required",
+        }),
+        textWeight: zod_1.z.string({
+            required_error: "textWeight is Required",
+        }),
+        textColor: zod_1.z.string({
+            required_error: "textColor is Required",
+        }),
     }),
 });
 exports.CarousalsValidation = {

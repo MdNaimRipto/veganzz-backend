@@ -18,5 +18,17 @@ const carousalSchema = new mongoose_1.Schema({
         required: true,
         default: "PAUSED",
     },
+    textSize: {
+        type: String,
+        required: true,
+    },
+    textWeight: {
+        type: String,
+        required: true,
+    },
+    textColor: {
+        type: String,
+        required: true,
+    },
 });
 exports.Carousal = (0, mongoose_1.model)("Carousal", carousalSchema);

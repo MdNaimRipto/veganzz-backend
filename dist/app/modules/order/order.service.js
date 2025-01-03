@@ -11,8 +11,8 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.OrdersService = void 0;
 const order_schema_1 = require("./order.schema");
-const getAllOrders = () => __awaiter(void 0, void 0, void 0, function* () {
-    const orders = yield order_schema_1.Orders.find().populate([
+const getAllOrders = (orderStatus) => __awaiter(void 0, void 0, void 0, function* () {
+    const orders = yield order_schema_1.Orders.find({ orderStatus }).populate([
         {
             path: "userId",
             select: "_id name email",

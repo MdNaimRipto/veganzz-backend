@@ -11,12 +11,16 @@ const articlesSchema = new Schema<IArticles>({
     type: String,
     required: true,
   },
-  description: [{ type: String, required: true }],
+  description: { type: String, required: true },
   status: {
     type: String,
     enum: ArticleStatusEnums,
     required: true,
     default: "PAUSED",
+  },
+  textAlign: {
+    type: String,
+    required: true,
   },
 });
 

@@ -44,7 +44,7 @@ const stripeCheckout = (payload) => __awaiter(void 0, void 0, void 0, function* 
                     quantity: quantity,
                 },
             ],
-            success_url: `http://localhost:3000/myprofile`,
+            success_url: `https://vaganizzze-frontend.vercel.app/myprofile`,
             cancel_url: `http://localhost:3000`,
             metadata: {
                 userId,

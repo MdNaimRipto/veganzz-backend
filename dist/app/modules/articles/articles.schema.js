@@ -12,12 +12,16 @@ const articlesSchema = new mongoose_1.Schema({
         type: String,
         required: true,
     },
-    description: [{ type: String, required: true }],
+    description: { type: String, required: true },
     status: {
         type: String,
         enum: articles_constant_1.ArticleStatusEnums,
         required: true,
         default: "PAUSED",
+    },
+    textAlign: {
+        type: String,
+        required: true,
     },
 });
 exports.Articles = (0, mongoose_1.model)("Articles", articlesSchema);

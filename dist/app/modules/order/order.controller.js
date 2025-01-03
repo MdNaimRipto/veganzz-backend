@@ -19,7 +19,8 @@ const http_status_1 = __importDefault(require("http-status"));
 const order_service_1 = require("./order.service");
 // Get All Orders
 const getAllOrders = (0, catchAsync_1.default)((req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const result = yield order_service_1.OrdersService.getAllOrders();
+    const { orderStatus } = req.query;
+    const result = yield order_service_1.OrdersService.getAllOrders(orderStatus);
     (0, sendResponse_1.default)(res, {
         success: true,
         statusCode: http_status_1.default.OK,
